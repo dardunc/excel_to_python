@@ -1,0 +1,25 @@
+# excel
+import pandas
+import openpyxl
+import os
+
+# Specify the file path
+username = os.getlogin()
+datapath = f"C:/Users/{username}/your/file/path/"   # PC PATH
+filename = 'your_excel_file.xlsx'
+
+file_path = f'{datapath}/{filename}'
+
+
+# UPDATE "Sheet1" tab
+sheet_name = 'Sheet1'
+
+# Load existing Excel file
+with pd.ExcelWriter(file_path, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
+    
+    # Write DataFrame to the specified sheet, replacing its contents
+    your_dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
+
+print(f"Data has been written to {sheet_name} in {file_path}.")
+
+excel_pretty(file_path, sheet_name)
