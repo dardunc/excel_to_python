@@ -1,0 +1,32 @@
+# Updates an Excel tab and freezes the top header row AND resizes the column widths to match the data
+def excel_pretty(file_path, sheet_name):
+
+    # Freeze Column headers
+    workbook = openpyxl.load_workbook(file_path)
+
+    # Select the worksheet you want to modify
+    sheet = workbook[sheet_name]  
+
+    # Freeze the top row
+    sheet.freeze_panes = sheet['A2']  # This freezes the first row
+
+    print(f"The top row of {sheet_name} has been frozen in {file_path}.")
+
+    # Adjust column widths
+    for col in sheet.columns:
+        max_length = 0
+        column = col[0].column_letter  # Get the column name
+        for cell in col:
+            try:
+                if len(str(cell.value)) > max_length:
+                    max_length = len(cell.value)
+            except:
+                pass
+
+        adjusted_width = max_length + 2
+        sheet.column_dimensions[column].width = adjusted_width
+
+    # Save the workbook
+    workbook.save(file_path)
+
+    print(f"Cells have been resized to fit content in {file_path}.")
