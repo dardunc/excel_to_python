@@ -1,0 +1,29 @@
+# Microsoft Excel
+import openpyxl
+from openpyxl import Workbook
+
+def data_to_excel_sheet (folder_path, file_name, sheet_name, dataframe_name):
+
+    # Specify the file path
+    this_file_path = f'{folder_path}/{file_name}'
+
+    # Check if the file exists
+    if not os.path.exists(this_file_path):
+        # Create a new workbook and save it to the specified file path
+        wb = Workbook()
+        wb.save(this_file_path)
+
+    # Load existing Excel file
+    with pd.ExcelWriter(this_file_path, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
+        
+        # Write DataFrame to the specified sheet, replacing its contents
+        dataframe_name.to_excel(writer, sheet_name=sheet_name, index=False)
+
+    print(f"Data has been written to {sheet_name} in {this_file_path}.")
+
+    excel_pretty(this_file_path, sheet_name)  # Optional and in another function
+
+
+
+# Function Call
+data_to_excel_sheet (datapath, 'test_excel_file.xlsx', 'test sheet', test_dataframe)
