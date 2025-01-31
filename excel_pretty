@@ -1,4 +1,4 @@
-# Updates an Excel tab and freezes the top header row AND resizes the column widths to match the data
+# Updates an Excel sheet and freezes the top header row, add filters AND resizes the column widths to match the data
 def excel_pretty(file_path, sheet_name):
 
     # Freeze Column headers
@@ -12,6 +12,9 @@ def excel_pretty(file_path, sheet_name):
 
     print(f"The top row of {sheet_name} has been frozen in {file_path}.")
 
+    # Add filters to the columns
+    sheet.auto_filter.ref = sheet.dimensions
+
     # Adjust column widths
     for col in sheet.columns:
         max_length = 0
@@ -23,7 +26,7 @@ def excel_pretty(file_path, sheet_name):
             except:
                 pass
 
-        adjusted_width = max_length + 2
+        adjusted_width = max_length + 4
         sheet.column_dimensions[column].width = adjusted_width
 
     # Save the workbook
